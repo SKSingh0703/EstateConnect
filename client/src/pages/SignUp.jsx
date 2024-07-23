@@ -42,7 +42,7 @@ export default function SignUp() {
       }, 2000);
     } catch (error) {
       setLoading(false);
-      setError(error.message);
+      setError(error.message); 
     }
   };
 
