@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FaSpinner } from "react-icons/fa";
+import Oauth from "../components/Oauth";
 
 export default function SignUp() {
   const navigate = useNavigate();
@@ -78,6 +79,7 @@ export default function SignUp() {
         >
           {loading ? <FaSpinner className="animate-spin" /> : 'Sign Up'}
         </button>
+        <Oauth />
       </form>
       <div className="flex gap-2 mt-5 text-gray-600">
         <p>Have an account?</p>

@@ -4,6 +4,7 @@ import { FaSpinner } from "react-icons/fa";
 
 import { useDispatch, useSelector } from "react-redux";
 import { signInStart,signInSuccess,signInFailure } from "../redux/user/userSlice"; 
+import Oauth from "../components/Oauth";
 
 export default function SignIn() {
 
@@ -73,6 +74,7 @@ export default function SignIn() {
         >
           {loading ? <FaSpinner className="animate-spin" /> : 'Sign In'}
         </button>
+        <Oauth />
       </form>
       <div className="flex gap-2 mt-5 text-gray-600">
         <p>Dont have an account?</p>
