@@ -18,9 +18,9 @@ const userSchema = new mongoose.Schema({
     },
     avatar:{
         type:String,
-        default:"https://png.pngtree.com/png-vector/20191110/ourmid/pngtree-avatar-icon-profile-icon-member-login-vector-isolated-png-image_1978396.jpg",
+        default:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQH4skylfJs-mOf6lz4pGDuTMvX6zqPc4LppQ&s"
     },
 },{timestamps:true});
 
 const User = mongoose.model('User',userSchema);
-export default User;
+export default User; 
