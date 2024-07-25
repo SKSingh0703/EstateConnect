@@ -4,7 +4,7 @@ import { getStorage, ref, uploadBytesResumable, getDownloadURL } from 'firebase/
 import { app } from '../firebase';
 import { FaSpinner } from "react-icons/fa";
 
-import { updateUserFailure,updateUserStart,updateUserSuccess ,updateUserEnd, deleteUserFailure, deleteUserStart, deleteUserSuccess} from '../redux/user/userSlice';
+import { updateUserFailure,updateUserStart,updateUserSuccess ,updateUserEnd, deleteUserFailure, deleteUserStart, deleteUserSuccess, signOutUserStart, signOutUserFailure, signOutUserSuccess} from '../redux/user/userSlice';
 
 export default function Profile() {
   const [success, setSuccess] = useState(null);
@@ -68,7 +68,7 @@ export default function Profile() {
       }
     );
   };
-
+  
   const handleChange = (e)=>{
     setFormData({
       ...formData,
@@ -127,7 +127,21 @@ const handleSumbit =async (e)=>{
   };
   
 
-
+  const handleSignOut = async () =>{
+    try {
+      dispatch(signOutUserStart());
+      const res = await fetch('/api/auth/signout');
+      const data = await res.json();
+      if (data.success === false) {
+        dispatch(signOutUserFailure(data.message));
+        return;
+      }
+      dispatch(signOutUserSuccess());
+    } catch (error) {
+      dispatch(signOutUserFailure(error.message));
+    }
+  }
+  console.log(currentUser);
 
   return ( 
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
@@ -185,7 +199,7 @@ const handleSumbit =async (e)=>{
         {success && <p className="text-green-500 mt-5 text-center">{success}</p>}
         <div className="flex justify-between mt-6">
           <span onClick={handleDeleteUser} className="text-red-600 cursor-pointer hover:underline">Delete Account</span>
-          <span className="text-red-600 cursor-pointer hover:underline">Sign Out</span>
+          <span onClick={handleSignOut} className="text-red-600 cursor-pointer hover:underline">Sign Out</span>
         </div>
       </div>
     </div>
