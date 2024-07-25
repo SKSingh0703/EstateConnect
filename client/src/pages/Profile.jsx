@@ -104,7 +104,6 @@ const handleSumbit =async (e)=>{
     dispatch(updateUserFailure(error.message));
   }
 }
-console.log(currentUser);
   return ( 
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
       <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
@@ -145,12 +144,11 @@ console.log(currentUser);
           />
           <input
             type="password"
-            placeholder="Password"
+            placeholder="New Password"
             className="border border-gray-300 p-4 rounded-lg text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
             id="password"
           />
           <button 
-          // className="bg-blue-600 text-white rounded-lg p-4 uppercase hover:bg-blue-700 transition-colors duration-200"
           className="bg-blue-600 text-white rounded-lg p-4 uppercase hover:bg-blue-700 transition-colors duration-200 flex items-center justify-center gap-2"
           >
             { loading ? <FaSpinner className="animate-spin" /> : 'update'}
