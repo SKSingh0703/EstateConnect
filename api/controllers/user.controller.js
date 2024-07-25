@@ -12,41 +12,43 @@ export const test = (req,res) =>{
 
 
 export const updateUser = async (req, res, next) => {
-    // Ensure user is updating their own account
     if (req.user.id !== req.params.id) {
         return next(errorHandler(401, "You can only update your own account"));
     }
-
     try {
-        // Prepare the update fields
         const updateFields = {
             username: req.body.username,
             email: req.body.email,
             avatar: req.body.avatar
         };
-
-        // Hash password if it is being updated
         if (req.body.password) {
             updateFields.password = bcryptjs.hashSync(req.body.password, 10);
         }
-
-        // Update the user
         const updatedUser = await User.findByIdAndUpdate(
             req.params.id, 
             { $set: updateFields }, 
             { new: true }
         );
-
-        // Check if the user was found and updated
         if (!updatedUser) {
             return next(errorHandler(404, "User not found"));
         }
-
-        // Exclude password from the response
         const { password, ...rest } = updatedUser._doc;
         res.status(200).json(rest);
     } catch (error) {
         next(error);
     }
 };
+
+export const deleteUser = async (req,res,next)=>{
+    if (req.user.id!= req.params.id) {
+        return next(errorHandler(401,'You can only delete your own account'));
+    }
+    try {
+        await User.findByIdAndDelete(req.params.id);
+        res.clearCookie('access_token');
+        res.status(200).json("User has been deleted");
+    } catch (error) {
+        next(error)
+    }
+}
 
