@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import { app } from '../firebase';
 import { FaSpinner } from "react-icons/fa";
-
+import {Link} from 'react-router-dom';
 import { updateUserFailure,updateUserStart,updateUserSuccess ,updateUserEnd, deleteUserFailure, deleteUserStart, deleteUserSuccess, signOutUserStart, signOutUserFailure, signOutUserSuccess} from '../redux/user/userSlice';
 
 export default function Profile() {
@@ -192,9 +192,12 @@ const handleSumbit =async (e)=>{
           >
             { loading ? <FaSpinner className="animate-spin" /> : 'update'}
           </button>
-          <p>
-            {}
-          </p>
+          
+          <Link 
+          className='bg-green-600 text-white p-3 rounded-lg uppercase text-center transition-transform duration-300 hover:opacity-90 hover:scale-105 hover:shadow-lg'
+          to={"/create-listing"}>
+            Create Listing
+          </Link>
         </form>
         {success && <p className="text-green-500 mt-5 text-center">{success}</p>}
         <div className="flex justify-between mt-6">
