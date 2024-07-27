@@ -324,9 +324,19 @@ export default function CreateListing() {
             </div>
           ))}
 
-          <button disabled={loading || uploading} className="p-3 bg-gray-900 text-white rounded-lg uppercase hover:bg-gray-800 hover:shadow-md hover:scale-105 transition duration-200">
-            {loading ? <FaSpinner className="animate-spin" /> : 'Update listing' }
+
+          <button
+            disabled={loading || uploading}
+            className="relative p-3 bg-gray-900 text-white rounded-lg uppercase hover:bg-gray-800 hover:shadow-md hover:scale-105 transition duration-200 flex items-center justify-center"
+          >
+           {loading ? (
+             <FaSpinner className="animate-spin text-xl" aria-label="Loading" />
+             ) : (
+            'Update listing'
+            )}
           </button>
+
+
           {error && <p className="text-red-700 text-sm">{error}</p> }
         </div>
       </form>
