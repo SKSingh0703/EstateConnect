@@ -5,10 +5,11 @@ import { FaSpinner } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
+
 export default function CreateListing() {
-    const navigate = useNavigate();
-    const {currentUser} = useSelector((state) => state.user)
-    
+  const navigate = useNavigate();
+
+  const {currentUser} = useSelector((state) => state.user);
   const [formData, setFormData] = useState({
     imageUrls: [],
     name:'',description:'',address:'',
@@ -83,6 +84,7 @@ export default function CreateListing() {
       );
     });
   };
+
   const handleRemoveImage = (index) =>{
     setFormData({
         ...formData,
@@ -140,14 +142,15 @@ export default function CreateListing() {
         if ((data.success === false)) {
             setError(data.message);
         }
-        console.log(data);
-        console.log(data._id);
+        
         navigate(`listing/${data._id}`);
     } catch (error) {
         setError(error.message);
         setLoading(false);
     }
   }
+
+
   return (
     <main className="p-6 max-w-4xl mx-auto bg-white rounded-lg shadow-lg">
       <h1 className="text-3xl font-semibold text-center my-6 text-gray-900">
