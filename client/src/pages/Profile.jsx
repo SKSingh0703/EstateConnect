@@ -22,6 +22,10 @@ export default function Profile() {
   const [fileUploadError, setFileUploadError] = useState(false);
   const [formData, setFormData] = useState({});
 
+  const [showListingError ,setShowListingError] = useState(false);
+  const [listingLoading , setListingLoading] =useState(false);
+  const [userListing ,setUserListing] = useState([]);
+
   useEffect(() => {
     if (currentUser instanceof Promise) {
       currentUser
@@ -141,7 +145,26 @@ const handleSumbit =async (e)=>{
       dispatch(signOutUserFailure(error.message));
     }
   }
-  console.log(currentUser);
+  
+  const handleShowListing = async () => {
+    try {
+      setShowListingError(false);
+      setListingLoading(true);
+      const res = await fetch(`/api/user/listings/${currentUser._id}`);
+      const data = await res.json();
+      if (data.success === false) {
+        setListingLoading(false);
+        setShowListingError(true);
+        return;
+      }
+      setListingLoading(false);
+      setUserListing(data);
+      
+    } catch (error) {
+      setListingLoading(false);
+      setShowListingError(true);
+    }
+  }
 
   return ( 
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
@@ -190,7 +213,7 @@ const handleSumbit =async (e)=>{
           <button 
           className="bg-blue-600 text-white rounded-lg p-4 uppercase hover:bg-blue-700 transition-colors duration-200 flex items-center justify-center gap-2"
           >
-            { loading ? <FaSpinner className="animate-spin" /> : 'update'}
+            { loading ? (<FaSpinner className="animate-spin" />) : ('update')}
           </button>
           
           <Link 
@@ -204,7 +227,45 @@ const handleSumbit =async (e)=>{
           <span onClick={handleDeleteUser} className="text-red-600 cursor-pointer hover:underline">Delete Account</span>
           <span onClick={handleSignOut} className="text-red-600 cursor-pointer hover:underline">Sign Out</span>
         </div>
+        
+        <button disabled={listingLoading} onClick={handleShowListing}
+        className={`text-green-700 text-sm w-full hover:underline flex items-center justify-center ${listingLoading ? 'cursor-wait' : ''}`}
+        >
+        {listingLoading ? (
+          <FaSpinner className="animate-spin text-lg" />
+          ) : (
+    '         Show listings'
+          )}
+        </button>
+        <p className='text-red-700 mt-5'>{showListingError ? 'Error showing listing' :''}</p>
+
+        {userListing && userListing.length >0 && 
+          <div className='flex flex-col gap-4'>
+            <h1 className=' text-center mt-7 text-2xl font-semibold'>Your Listings</h1>
+           {userListing.map((listing) =>(
+            <div  key={listing._id} 
+            className='border rounded-lg p-3 flex justify-between items-center gap-4'>
+              <Link to={`/listing/${listing._id}`}>
+                <img src={listing.imageUrls[0]} alt="listing cover"
+                  className='h-16 w-16 object-contain '
+                 />
+              </Link>
+              <Link 
+              className='text-slate-900 font-semibold flex-1 hover:underline truncate'
+              to={`/listing/${listing._id}`}>
+               <p >{listing.name}</p>
+              </Link>
+              <div className='flex flex-col items-center'>
+                <button className='text-red-700 uppercase'>Delete</button>
+                <button className='text-blue-600'>Edit</button>
+              </div>
+
+            </div>
+          ))}
+        </div>
+        }
       </div>
+      
     </div>
   );
 }
