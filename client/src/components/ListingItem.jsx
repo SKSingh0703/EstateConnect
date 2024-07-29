@@ -16,7 +16,7 @@ export default function ListingItem({ listing }) {
             <MdLocationOn className="h-5 w-5 text-green-600" />
             <p className="text-sm truncate">{listing.address}</p>
           </div>
-          <p className="text-sm text-gray-600 truncate">{listing.description}</p>
+          <p className="text-sm text-gray-600 line-clamp-3">{listing.description}</p>
           <p className="text-xl font-bold text-slate-800 mt-2">
             &#8377;{listing.offer ? listing.discountPrice.toLocaleString('en-IN') : listing.regularPrice.toLocaleString('en-IN')}
             {listing.type === 'rent' && ' / month'}
