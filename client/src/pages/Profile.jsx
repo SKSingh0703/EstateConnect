@@ -13,7 +13,8 @@ export default function Profile() {
   const fileRef = useRef(null);
 
   const [user, setUser] = useState(null);
-  const currentUser = useSelector((state) => state.user.currentUser);
+  // const currentUser = useSelector((state) => state.user.currentUser);
+  const {currentUser} = useSelector((state) => state.user);
 
   const loading = useSelector((state) =>state.user.loading);
 

@@ -1,27 +1,45 @@
 import { useEffect, useState } from 'react';
 import { FaSearch } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 export default function Header() {
   const [user, setUser] = useState(null);
-  const currentUser = useSelector((state) => state.user.currentUser);
+  const {currentUser} = useSelector((state) => state.user);
+
+  const [searchTerm,setSearchTerm] = useState('');
 
   useEffect(() => {
-    // Assuming currentUser is a promise, resolve it
     if (currentUser instanceof Promise) {
       currentUser.then((result) => {
-        setUser(result); // Set the resolved user data
+        setUser(result); 
       }).catch((error) => {
         console.error('Error resolving currentUser:', error);
       });
     } else {
-      setUser(currentUser); // If it's not a promise, just set the user
+      setUser(currentUser); 
     }
   }, [currentUser]);
 
-  const image = user?.avatar || ''; // Handle avatar URL
+  const image = user?.avatar || '';
 
+  const navigate = useNavigate();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const urlParams = new URLSearchParams(window.location.search);
+    urlParams.set('searchTerm',searchTerm);
+    const searchQuery = urlParams.toString();
+    navigate(`/search?${searchQuery}`);
+  }
+
+  useEffect(() =>{
+    const urlParams = new URLSearchParams(location.search);
+    const searchTermFromUrl = urlParams.get('searchTerm');
+    if (searchTermFromUrl) {
+      setSearchTerm(searchTermFromUrl);
+    }
+  },[location.search]);
   return (
     <header className='bg-gray-900 shadow-md'>
       <div className='flex justify-between items-center max-w-6xl mx-auto p-3'>
@@ -31,13 +49,18 @@ export default function Header() {
             <span className='text-gray-400'>Connect</span>
           </h1>
         </Link>
-        <form className='bg-gray-800 p-3 rounded-lg flex items-center'>
+        <form  onSubmit={handleSubmit} className='bg-gray-800 p-3 rounded-lg flex items-center'>
           <input
             type='text'
             placeholder='Search...'
+            value={searchTerm}
+            onChange={((e) => setSearchTerm(e.target.value))}
             className='bg-transparent focus:outline-none w-24 sm:w-64 text-gray-300 placeholder-gray-500'
           />
-          <FaSearch className='text-gray-500' />
+          <button>
+            <FaSearch className='text-gray-500' />
+          </button>
+          
         </form>
         <ul className='flex gap-4  '>
           <Link to='/'>
