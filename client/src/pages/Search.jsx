@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
-import {useNavigate} from 'react-router-dom'
+import {useNavigate} from 'react-router-dom';
+import { FaSpinner } from "react-icons/fa";import ListingItem from "../components/ListingItem";
+;
 
 export default function Search() {
 
@@ -168,13 +170,31 @@ export default function Search() {
           </form>
         </div>
   
-        {/* Search Results */}
-        <div className="flex-1 p-6">
-          <h1 className="text-3xl font-semibold border-b-2 pb-3 text-slate-700">
-            Listing Results
-          </h1>
-          {/* Content for search results will go here */}
+       {/* Search Results */}
+      <div className="flex-1 p-6 bg-white shadow-md rounded-lg">
+        <h1 className="text-3xl font-semibold border-b-2 border-slate-300 pb-3 text-slate-700 mb-4">
+          Listing Results
+        </h1>
+        {/* Content for search results will go here */}
+        <div className="p-6 flex flex-wrap gap-6">
+          {!loading && listings.length === 0 && (
+            <p className="text-lg text-slate-700">
+              No Listings found
+            </p>
+          )}
+          {loading && (
+            <div className="flex justify-center items-center w-full h-full min-h-[300px]">
+              <FaSpinner className="animate-spin text-blue-600 text-6xl" aria-label="Loading" />
+            </div>
+          )}
+          {!loading && listings && listings.length > 0 && 
+            listings.map((listing) => (
+              <ListingItem key={listing._id} listing={listing} />
+            ))
+         }
         </div>
+      </div>
+
       </div>
     );
   }
