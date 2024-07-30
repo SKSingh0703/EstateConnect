@@ -25,9 +25,13 @@ mongoose.connect(process.env.MONGO).then(()=>{
 
 const __dirname = path.resolve();
 
-app.listen(3000,()=>{
-    console.log("Server is Listening on port 3000");
-}); 
+// app.listen(3000,()=>{
+//     console.log("Server is Listening on port 3000");
+// }); 
+const port = process.env.PORT || 3000;
+app.listen(port, () => {
+  console.log(`Server is Listening on port ${port}`);
+});
 
 app.use("/api/user",userRouter);   
 app.use("/api/auth",authRouter);
