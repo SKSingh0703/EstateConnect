@@ -44,7 +44,6 @@ export default function Home() {
       }
     }
   },[])
-  console.log(saleListings);
 
   return (
     <div>
@@ -81,7 +80,7 @@ export default function Home() {
               <SwiperSlide key={listing._id}>
                 <div
                   className="h-[450px] bg-cover bg-center"
-                  style={{ backgroundImage: `url(${listing.imageUrls[0] || 'https://via.placeholder.com/600x450'})` }}
+                  style={{ backgroundImage: `url(${listing.imageUrls[0] || 'https://imgcdn.stablediffusionweb.com/2024/2/28/a47b610b-8251-45e6-a7ef-b9f305ae7c96.jpg'})` }}
                 />
               </SwiperSlide>
             ))
